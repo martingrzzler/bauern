@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/BauernTests.dir/BauernTest.cpp.o -o BauernTests  -lgtest_main -lBauernLib 

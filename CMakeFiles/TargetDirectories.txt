@@ -1,0 +1,3 @@
+/home/martingrzzler/CODE/SE_02/bauern/CMakeFiles/rebuild_cache.dir
+/home/martingrzzler/CODE/SE_02/bauern/CMakeFiles/edit_cache.dir
+/home/martingrzzler/CODE/SE_02/bauern/CMakeFiles/BauernTests.dir

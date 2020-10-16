@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.8)
 
-set(This ExampleTests)
+set(This BauernTests)
 
 
 set(Sources
-  ExampleTests.cpp
+  BauernTest.cpp
 )
 
 add_executable(${This} ${Sources})

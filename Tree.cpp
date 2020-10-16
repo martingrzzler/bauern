@@ -10,15 +10,11 @@ void Tree::buildTree(const Node &node, const Utils::State &turn)
 {
   if (this->hasEnded(turn, node.getData()))
   {
-    std::cout << "Over" << std::endl;
-  }
-  else
-  {
-    std::cout << "Still going" << std::endl;
+    return;
   }
 }
 
-bool Tree::hasEnded(const Utils::State &turn, const Utils::MatchField &data)
+bool Tree::hasEnded(const Utils::State &turn, const Utils::MatchField &data) const
 {
   bool hasEnded = true;
   for (int i = 0; i < data.size(); i++)

@@ -11,7 +11,7 @@ private:
 public:
   Tree(const Node &node);
   void buildTree(const Node &node, const Utils::State &turn = Utils::WHITE);
-  bool hasEnded(const Utils::State &turn, const Utils::MatchField &data);
+  bool hasEnded(const Utils::State &turn, const Utils::MatchField &data) const;
   Node getRoot() const;
 };
 
