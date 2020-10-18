@@ -22,6 +22,8 @@ namespace Constants
 
   const int END_LINE_WHITE = initial.size() - 1;
   const int END_LINE_BLACK = 0;
+  const int NO_LEFT_UPWARD_COLUMN = 0;
+  const int NO_RIGHT_UPWARD_COLUMN = initial[0].size() - 1;
 
 } // namespace Constants
 
