@@ -8,10 +8,11 @@ class Node
 {
 private:
   Utils::MatchField data;
-  std::vector<Node> children;
+  mutable std::vector<Node> children;
 public:
   Node(const Utils::MatchField &data);
   Utils::MatchField getData() const;
+  void addChild(const Node &node) const;
 };
 
 

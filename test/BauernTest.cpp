@@ -14,8 +14,8 @@ struct BauernTest : public ::testing::Test {
 };
 
 TEST_F(BauernTest, TestInitialFieldShouldNotEnd) {
-  const Node root = Node(Constants::initial);
-  const Tree tree = Tree(root);
+  Node root = Node(Constants::initial);
+  Tree tree = Tree(root);
   const bool hasEnded = tree.hasEnded(Utils::WHITE, tree.getRoot().getData());
   ASSERT_FALSE(hasEnded);
 

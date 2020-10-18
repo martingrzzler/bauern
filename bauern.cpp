@@ -7,6 +7,5 @@ int main()
   Node root = Node(Constants::initial);
   Tree tree = Tree(root);
   tree.buildTree(tree.getRoot());
-
   return 0;
 }

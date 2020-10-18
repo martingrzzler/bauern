@@ -10,3 +10,8 @@ Utils::MatchField Node::getData() const
   return this->data;
 }
 
+void Node::addChild(const Node &node) const
+{
+  this->children.push_back(node);
+}
+

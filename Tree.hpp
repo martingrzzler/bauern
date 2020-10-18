@@ -13,8 +13,8 @@ public:
   void buildTree(const Node &node, const Utils::State &turn = Utils::WHITE);
   bool hasEnded(const Utils::State &turn, const Utils::MatchField &data) const;
   void moveBlack(const Utils::MatchField &data);
-  void moveWhite(const Utils::MatchField &data);
-  Node getRoot() const;
+  void moveWhite(const Utils::MatchField &data, const Node &node);
+  Node getRoot();
 };
 
 #endif /* TREE_HPP */
