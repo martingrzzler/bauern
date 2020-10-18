@@ -20,6 +20,8 @@ namespace Utils
   /* loops over all elements in the Matchfield and calls the lamda only when the current Field is WHITE */
   void forEachWhite(const Utils::MatchField &data, const std::function<void(int, int)> &lamda);
 
+  void forEachBlackReverse(const Utils::MatchField &data, const std::function<void(int, int)> &lamda);
+
   Utils::MatchField copyMatchField(const Utils::MatchField &from);
 
 }; // namespace Utils

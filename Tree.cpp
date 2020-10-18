@@ -17,8 +17,9 @@ void Tree::buildTree(const Node &node, const Utils::State &turn)
   {
     this->moveWhite(node.getData(), node);
   }
-  else if(turn == Utils::BLACK) {
-
+  else if(turn == Utils::BLACK) 
+  {
+    
   }
 }
 
@@ -42,9 +43,14 @@ bool Tree::hasEnded(const Utils::State &turn, const Utils::MatchField &data) con
   return hasEnded;
 }
 
+void Tree::moveBlack(const Utils::MatchField &data, const Node &node) 
+{
+  
+}
+
 void Tree::moveWhite(const Utils::MatchField &data, const Node &node) 
 {
-  auto callback = [&data, &node](int row, int column)
+  auto callback = [&data, &node, this](int row, int column)
   {
     const Utils::State &current = data[row][column];
     const Utils::State &ahead = data[row + 1][column];
@@ -56,8 +62,27 @@ void Tree::moveWhite(const Utils::MatchField &data, const Node &node)
       Utils::MatchField copy = Utils::copyMatchField(data);
       copy[row][column + 1] = current;
       copy[row][column] = Utils::NONE;
-      Node child = Node(copy);
+      const Node child = Node(copy);
       node.addChild(child);
+      this->buildTree(child, Utils::BLACK);
+    }
+    if (leftUpward == Utils::BLACK) 
+    {
+      Utils::MatchField copy = Utils::copyMatchField(data);
+      copy[row + 1][column - 1] = current;
+      copy[row][column] = Utils::NONE;
+      const Node child = Node(copy);
+      node.addChild(child);
+      this->buildTree(child, Utils::BLACK);
+    }
+    if (rightUpward == Utils::BLACK) 
+    {
+      Utils::MatchField copy = Utils::copyMatchField(data);
+      copy[row + 1][column + 1] = current;
+      copy[row][column] = Utils::NONE;
+      const Node child = Node(copy);
+      node.addChild(child);
+      this->buildTree(child, Utils::BLACK);
     }
 
   };
