@@ -13,6 +13,8 @@ public:
   Node(const Utils::MatchField &data);
   Utils::MatchField getData() const;
   void addChild(const Node &node) const;
+  std::vector<Node>& getChildren() const;
+  std::string toString() const;
 };
 
 

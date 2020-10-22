@@ -17,9 +17,10 @@ namespace Utils
 
   typedef std::array<std::array<State, 2>, 8> MatchField;
 
-  /* loops over all elements in the Matchfield and calls the lamda only when the current Field is WHITE */
+  /* loops over all elements of the Matchfield and calls the lamda only when the current field is WHITE */
   void forEachWhite(const Utils::MatchField &data, const std::function<void(int, int)> &lamda);
-
+  
+ /* loops over all elements of the Matchfield in reversed order and calls the lamda only when the current field is BLACK */
   void forEachBlackReverse(const Utils::MatchField &data, const std::function<void(int, int)> &lamda);
 
   Utils::MatchField copyMatchField(const Utils::MatchField &from);

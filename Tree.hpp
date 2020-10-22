@@ -14,7 +14,7 @@ public:
   bool hasEnded(const Utils::State &turn, const Utils::MatchField &data) const;
   void moveBlack(const Utils::MatchField &data, const Node &node);
   void moveWhite(const Utils::MatchField &data, const Node &node);
-  Node getRoot();
+  Node& getRoot();
 };
 
 #endif /* TREE_HPP */
