@@ -12,8 +12,9 @@ public:
   Tree(const Node &node);
   void buildTree(const Node &node, const Utils::State &turn = Utils::WHITE);
   bool hasEnded(const Utils::State &turn, const Utils::MatchField &data) const;
-  void moveBlack(const Utils::MatchField &data, const Node &node);
-  void moveWhite(const Utils::MatchField &data, const Node &node);
+  void moveBlack(const Node &node);
+  void moveWhite(const Node &node);
+  void addNode(const Node &node, const Utils::State &turn, const Utils::Positions &positions);
   Node& getRoot();
 };
 

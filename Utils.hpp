@@ -15,12 +15,26 @@ namespace Utils
     UNDEFINED = -1
   };
 
+  enum Move {
+    LEFT_UPWARD,
+    AHEAD,
+    RIGHT_UPWARD
+  };
+
+  struct Positions
+  {
+    int row;
+    int column;
+    Utils::State current;
+    Utils::Move move;
+  };
+
   typedef std::array<std::array<State, 2>, 8> MatchField;
 
   /* loops over all elements of the Matchfield and calls the lamda only when the current field is WHITE */
   void forEachWhite(const Utils::MatchField &data, const std::function<void(int, int)> &lamda);
-  
- /* loops over all elements of the Matchfield in reversed order and calls the lamda only when the current field is BLACK */
+
+  /* loops over all elements of the Matchfield in reversed order and calls the lamda only when the current field is BLACK */
   void forEachBlackReverse(const Utils::MatchField &data, const std::function<void(int, int)> &lamda);
 
   Utils::MatchField copyMatchField(const Utils::MatchField &from);
