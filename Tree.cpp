@@ -122,9 +122,9 @@ void Tree::addNode(const Node &node, const Utils::State &turn, const Utils::Posi
   }
 
   copy[positions.row][positions.column] = Utils::NONE;
-  const Node child = Node(copy);
-  node.addChild(child);
-  this->buildTree(child, turn == Utils::WHITE ? Utils::BLACK : Utils::WHITE);
+  const Node *child = new Node(copy);
+  node.addChild(*child);
+  this->buildTree(*child, turn == Utils::WHITE ? Utils::BLACK : Utils::WHITE);
 }
 
 Node &Tree::getRoot()

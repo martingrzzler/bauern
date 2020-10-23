@@ -3,7 +3,7 @@
 
 Node::Node(const Utils::MatchField &data): data(data) 
 {
-  this->children = std::vector<Node>();
+  this->children = new std::vector<Node>();
 }
 
 Utils::MatchField Node::getData() const
@@ -13,12 +13,12 @@ Utils::MatchField Node::getData() const
 
 void Node::addChild(const Node &node) const
 {
-  this->children.push_back(node);
+  this->children->push_back(node);
 }
 
 std::vector<Node>& Node::getChildren() const
 {
-  return this->children;
+  return *this->children;
 }
 
 std::string Node::toString() const
