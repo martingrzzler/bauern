@@ -15,10 +15,18 @@ namespace Utils
     UNDEFINED = -1
   };
 
-  enum Move {
+  enum Move
+  {
     LEFT_UPWARD,
     AHEAD,
     RIGHT_UPWARD
+  };
+
+  enum End
+  {
+    WHITE_WIN,
+    BLACK_WIN,
+    DRAW
   };
 
   struct Positions

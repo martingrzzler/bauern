@@ -16,6 +16,11 @@ void Node::addChild(const Node &node) const
   this->children->push_back(node);
 }
 
+void Node::setEnd(const Utils::End &end) 
+{
+  *this->end = end;
+}
+
 std::vector<Node>& Node::getChildren() const
 {
   return *this->children;
@@ -24,7 +29,7 @@ std::vector<Node>& Node::getChildren() const
 std::string Node::toString() const
 {
   std::stringstream ss;
-  ss << "Node: {\n";
+  ss << "Node(end: " << *this->end << "): {\n";
   for (int i = 0; i < this->data.size(); i++)
   {
     ss << "\tRow " << i << ": {";

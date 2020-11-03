@@ -38,8 +38,12 @@ bool Tree::hasEnded(const Utils::State &turn, const Utils::MatchField &data) con
           hasEnded = false;
         }
 
-        if (bauer == Utils::WHITE && i == Constants::END_LINE_WHITE)
+        if (bauer == Utils::WHITE && i == Constants::END_LINE_WHITE) {
+          
           return true;
+        }
+
+          
         else if (bauer == Utils::BLACK && i == Constants::END_LINE_BLACK)
           return true;
       }
