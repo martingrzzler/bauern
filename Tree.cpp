@@ -52,7 +52,7 @@ bool Tree::hasEnded(const Utils::State &turn, const Node &node) const
     }
   }
   if (hasEnded && turn == Utils::BLACK) node.setEnd(Utils::WHITE_WIN);
-  else if (hasEnded && turn == Utils::BLACK) node.setEnd(Utils::BLACK_WIN);
+  else if (hasEnded && turn == Utils::WHITE) node.setEnd(Utils::BLACK_WIN);
   return hasEnded;
 }
 

@@ -13,8 +13,11 @@ void printAllFields(const Node &node, int &count)
     }
   } else {
     count++;
-    std::cout << node.toString() << std::endl;
-    std::cout << "number of children: " << node.getChildren().size()<< std::endl;
+    if (node.getEnd() == Utils::UNSET) {
+      std::cout << node.toString() << std::endl;
+      std::cout << "number of children: " << node.getChildren().size()<< std::endl;
+    }
+    
   }
 }
 
