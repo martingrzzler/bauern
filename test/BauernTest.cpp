@@ -47,8 +47,8 @@ TEST_F(BauernTest, TestShouldEnd)
 
 TEST_F(BauernTest, TestForEachReverseShouldLoopInReverseOrder)
 {
-  auto callback = [](int row, int colum) {
-  };
+  // auto callback = [](Utils::CurrentStats stats) {
+  // };
 
-  Utils::forEachBlackReverse(Constants::initial, callback);
+  // Utils::forEachBlackReverse(Constants::initial, callback);
 }

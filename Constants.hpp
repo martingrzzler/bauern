@@ -19,7 +19,7 @@ namespace Constants
         {Utils::NONE, Utils::NONE}
       }};
 
-
+  const int MAX_PLAYERS = initial[0].size();
   const int END_LINE_WHITE = initial.size() - 1;
   const int END_LINE_BLACK = 0;
   const int NO_LEFT_UPWARD_COLUMN = 0;

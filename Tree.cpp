@@ -58,25 +58,35 @@ bool Tree::hasEnded(const Utils::State &turn, const Node &node) const
 
 void Tree::moveBlack(const Node &node)
 {
-  auto callback = [this, &node](int row, int column) {
-    const Utils::State &current = node.getData()[row][column];
-    const Utils::State &ahead = node.getData()[row - 1][column];
-    const Utils::State &leftUpward = column == Constants::NO_LEFT_UPWARD_COLUMN ? Utils::UNDEFINED : node.getData()[row - 1][column - 1];
-    const Utils::State &rightUpward = column == Constants::NO_RIGHT_UPWARD_COLUMN ? Utils::UNDEFINED : node.getData()[row - 1][column + 1];
+  int stucks = 0;
+
+  auto callback = [this, &node, &stucks]( Utils::CurrentStats stats) {
+    const Utils::State &current = node.getData()[stats.row][stats.column];
+    const Utils::State &ahead = node.getData()[stats.row - 1][stats.column];
+    const Utils::State &leftUpward = stats.column == Constants::NO_LEFT_UPWARD_COLUMN ? Utils::UNDEFINED : node.getData()[stats.row - 1][stats.column - 1];
+    const Utils::State &rightUpward = stats.column == Constants::NO_RIGHT_UPWARD_COLUMN ? Utils::UNDEFINED : node.getData()[stats.row - 1][stats.column + 1];
 
     if (ahead == Utils::NONE)
     {
-      this->addNode(node, Utils::BLACK, { row, column, current, Utils::AHEAD });
+      this->addNode(node, Utils::BLACK, { stats.row, stats.column, current, Utils::AHEAD });
     }
 
     if (leftUpward == Utils::WHITE)
     {
-      this->addNode(node, Utils::BLACK, { row, column, current, Utils::LEFT_UPWARD });
+      this->addNode(node, Utils::BLACK, { stats.row, stats.column, current, Utils::LEFT_UPWARD });
     }
 
     if (rightUpward == Utils::WHITE)
     {
-      this->addNode(node, Utils::BLACK, { row, column, current, Utils::RIGHT_UPWARD });
+      this->addNode(node, Utils::BLACK, { stats.row, stats.column, current, Utils::RIGHT_UPWARD });
+    }
+
+    // can't move
+    if (ahead == Utils::WHITE && leftUpward != Utils::WHITE && rightUpward != Utils::WHITE) 
+    {
+      stucks++;
+      // no left bauer can move hence => DRAW
+      if (stucks == stats.totalBauern) node.setEnd(Utils::DRAW);
     }
   };
 
@@ -85,23 +95,30 @@ void Tree::moveBlack(const Node &node)
 
 void Tree::moveWhite(const Node &node)
 {
-  auto callback = [&node, this](int row, int column) {
-    const Utils::State &current = node.getData()[row][column];
-    const Utils::State &ahead = node.getData()[row + 1][column];
-    const Utils::State &leftUpward = column == Constants::NO_LEFT_UPWARD_COLUMN ? Utils::UNDEFINED : node.getData()[row + 1][column - 1];
-    const Utils::State &rightUpward = column == Constants::NO_RIGHT_UPWARD_COLUMN ? Utils::UNDEFINED : node.getData()[row + 1][column + 1];
+  int stucks = 0;
 
+  auto callback = [&node, this, &stucks](Utils::CurrentStats stats) {
+    const Utils::State &current = node.getData()[stats.row][stats.column];
+    const Utils::State &ahead = node.getData()[stats.row + 1][stats.column];
+    const Utils::State &leftUpward = stats.column == Constants::NO_LEFT_UPWARD_COLUMN ? Utils::UNDEFINED : node.getData()[stats.row + 1][stats.column - 1];
+    const Utils::State &rightUpward = stats.column == Constants::NO_RIGHT_UPWARD_COLUMN ? Utils::UNDEFINED : node.getData()[stats.row + 1][stats.column + 1];
     if (ahead == Utils::NONE)
     {
-      this->addNode(node, Utils::WHITE, { row, column, current, Utils::AHEAD });
+      this->addNode(node, Utils::WHITE, { stats.row, stats.column, current, Utils::AHEAD });
     }
     if (leftUpward == Utils::BLACK)
     {
-      this->addNode(node, Utils::WHITE, { row, column, current, Utils::LEFT_UPWARD });
+      this->addNode(node, Utils::WHITE, { stats.row, stats.column, current, Utils::LEFT_UPWARD });
     }
     if (rightUpward == Utils::BLACK)
     {
-      this->addNode(node, Utils::WHITE, { row, column, current, Utils::RIGHT_UPWARD });
+      this->addNode(node, Utils::WHITE, { stats.row, stats.column, current, Utils::RIGHT_UPWARD });
+    }
+    // can't move
+    if (ahead == Utils::BLACK && leftUpward != Utils::BLACK && rightUpward != Utils::BLACK)
+    {
+      stucks++;
+      if (stucks == stats.totalBauern) node.setEnd(Utils::DRAW);
     }
   };
   Utils::forEachWhite(node.getData(), callback);
@@ -154,7 +171,7 @@ void Tree::analyze()
 {
   auto callback = [](const Node& node)
   {
-    std::cout << node.toString();
+    if(node.getEnd() == Utils::DRAW) std::cout << node.toString();
   };
 
   this->postOrderTraverseDF(&this->root, callback);

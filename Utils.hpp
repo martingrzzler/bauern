@@ -3,6 +3,7 @@
 
 #include <array>
 #include <functional>
+#include <map>
 
 namespace Utils
 {
@@ -38,13 +39,29 @@ namespace Utils
     Utils::Move move;
   };
 
+  enum Situation
+  {
+    STUCK, MOVABLE
+  };
+
+  struct CurrentStats 
+  {
+    int row;
+    int column;
+    int totalBauern;
+    int currentBauer;
+  };
+
   typedef std::array<std::array<State, 2>, 8> MatchField;
 
+  /* retrieve the total number of Bauern left from one side */
+  int getTotalBauernLeft(const Utils::MatchField &data, const Utils::State& turn);
+
   /* loops over all elements of the Matchfield and calls the lamda only when the current field is WHITE */
-  void forEachWhite(const Utils::MatchField &data, const std::function<void(int, int)> &lamda);
+  void forEachWhite(const Utils::MatchField &data, const std::function<void(Utils::CurrentStats)> &lamda);
 
   /* loops over all elements of the Matchfield in reversed order and calls the lamda only when the current field is BLACK */
-  void forEachBlackReverse(const Utils::MatchField &data, const std::function<void(int, int)> &lamda);
+  void forEachBlackReverse(const Utils::MatchField &data, const std::function<void(Utils::CurrentStats)> &lamda);
 
   Utils::MatchField copyMatchField(const Utils::MatchField &from);
 
