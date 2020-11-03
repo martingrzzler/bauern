@@ -24,9 +24,10 @@ namespace Utils
 
   enum End
   {
+    DRAW,
     WHITE_WIN,
     BLACK_WIN,
-    DRAW
+    UNSET = -1
   };
 
   struct Positions

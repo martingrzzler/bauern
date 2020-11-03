@@ -14,6 +14,7 @@ void printAllFields(const Node &node, int &count)
   } else {
     count++;
     std::cout << node.toString() << std::endl;
+    std::cout << "number of children: " << node.getChildren().size()<< std::endl;
   }
 }
 
@@ -23,7 +24,6 @@ int main()
   Node *root = new Node(Constants::initial);
   Tree *tree = new Tree(*root);
   tree->buildTree(tree->getRoot());
-  std::cout << root->getChildren().size();
   int count = 0;
   printAllFields(*root, count);
   std::cout << "Leaves count: " << count << std::endl;

@@ -4,6 +4,8 @@
 Node::Node(const Utils::MatchField &data): data(data) 
 {
   this->children = new std::vector<Node>();
+  this->end = new Utils::End();
+  *this->end = Utils::UNSET;
 }
 
 Utils::MatchField Node::getData() const
@@ -16,9 +18,14 @@ void Node::addChild(const Node &node) const
   this->children->push_back(node);
 }
 
-void Node::setEnd(const Utils::End &end) 
+void Node::setEnd(const Utils::End &end) const
 {
   *this->end = end;
+}
+
+Utils::End& Node::getEnd() const
+{
+  return *this->end;
 }
 
 std::vector<Node>& Node::getChildren() const

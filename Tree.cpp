@@ -8,7 +8,7 @@ Tree::Tree(const Node &node) : root(node)
 
 void Tree::buildTree(const Node &node, const Utils::State &turn)
 {
-  if (this->hasEnded(turn, node.getData()))
+  if (this->hasEnded(turn, node))
   {
     return;
   }
@@ -23,14 +23,14 @@ void Tree::buildTree(const Node &node, const Utils::State &turn)
   }
 }
 
-bool Tree::hasEnded(const Utils::State &turn, const Utils::MatchField &data) const
+bool Tree::hasEnded(const Utils::State &turn, const Node &node) const
 {
   bool hasEnded = true;
-  for (int i = 0; i < data.size(); i++)
+  for (int i = 0; i < node.getData().size(); i++)
   {
-    for (int j = 0; j < data[i].size(); j++)
+    for (int j = 0; j < node.getData()[i].size(); j++)
     {
-      Utils::State bauer = data[i][j];
+      Utils::State bauer = node.getData()[i][j];
       if (bauer == Utils::WHITE || bauer == Utils::BLACK)
       {
         if (turn == bauer)
@@ -39,16 +39,20 @@ bool Tree::hasEnded(const Utils::State &turn, const Utils::MatchField &data) con
         }
 
         if (bauer == Utils::WHITE && i == Constants::END_LINE_WHITE) {
-          
+          node.setEnd(Utils::WHITE_WIN);
           return true;
         }
 
           
-        else if (bauer == Utils::BLACK && i == Constants::END_LINE_BLACK)
+        else if (bauer == Utils::BLACK && i == Constants::END_LINE_BLACK) {
+          node.setEnd(Utils::BLACK_WIN);
           return true;
+        }
       }
     }
   }
+  if (hasEnded && turn == Utils::BLACK) node.setEnd(Utils::WHITE_WIN);
+  else if (hasEnded && turn == Utils::BLACK) node.setEnd(Utils::BLACK_WIN);
   return hasEnded;
 }
 
@@ -74,6 +78,10 @@ void Tree::moveBlack(const Node &node)
     {
       this->addNode(node, Utils::BLACK, { row, column, current, Utils::RIGHT_UPWARD });
     }
+
+    else {
+      node.setEnd(Utils::DRAW);
+    }
   };
 
   Utils::forEachBlackReverse(node.getData(), callback);
@@ -98,6 +106,11 @@ void Tree::moveWhite(const Node &node)
     if (rightUpward == Utils::BLACK)
     {
       this->addNode(node, Utils::WHITE, { row, column, current, Utils::RIGHT_UPWARD });
+    }
+
+    else 
+    {
+      node.setEnd(Utils::DRAW);
     }
   };
   Utils::forEachWhite(node.getData(), callback);
