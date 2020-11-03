@@ -27,9 +27,6 @@ int main()
   Node *root = new Node(Constants::initial);
   Tree *tree = new Tree(*root);
   tree->buildTree(tree->getRoot());
-  int count = 0;
-  printAllFields(*root, count);
-  std::cout << "Leaves count: " << count << std::endl;
-
+  tree->analyze();
   return 0;
 }

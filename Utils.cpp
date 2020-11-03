@@ -1,6 +1,6 @@
 #include "Utils.hpp"
 
-void Utils::forEachWhite(const Utils::MatchField &data, const std::function<void(int, int)> &lamda)
+void Utils::forEachWhite(const Utils::MatchField &data, const std::function<void(int row, int column)> &lamda)
 {
   for (int row = 0; row < data.size(); row++)
   {

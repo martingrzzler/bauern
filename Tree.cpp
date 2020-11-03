@@ -43,8 +43,8 @@ bool Tree::hasEnded(const Utils::State &turn, const Node &node) const
           return true;
         }
 
-          
-        else if (bauer == Utils::BLACK && i == Constants::END_LINE_BLACK) {
+        else if (bauer == Utils::BLACK && i == Constants::END_LINE_BLACK) 
+        {
           node.setEnd(Utils::BLACK_WIN);
           return true;
         }
@@ -78,10 +78,6 @@ void Tree::moveBlack(const Node &node)
     {
       this->addNode(node, Utils::BLACK, { row, column, current, Utils::RIGHT_UPWARD });
     }
-
-    else {
-      node.setEnd(Utils::DRAW);
-    }
   };
 
   Utils::forEachBlackReverse(node.getData(), callback);
@@ -106,11 +102,6 @@ void Tree::moveWhite(const Node &node)
     if (rightUpward == Utils::BLACK)
     {
       this->addNode(node, Utils::WHITE, { row, column, current, Utils::RIGHT_UPWARD });
-    }
-
-    else 
-    {
-      node.setEnd(Utils::DRAW);
     }
   };
   Utils::forEachWhite(node.getData(), callback);
@@ -142,6 +133,31 @@ void Tree::addNode(const Node &node, const Utils::State &turn, const Utils::Posi
   const Node *child = new Node(copy);
   node.addChild(*child);
   this->buildTree(*child, turn == Utils::WHITE ? Utils::BLACK : Utils::WHITE);
+}
+
+void Tree::postOrderTraverseDF(const Node* node ,const std::function<void(const Node&)> &lamda) 
+{
+  if (node == NULL) 
+  {
+    return;
+  }
+
+  for (int i = 0; i < node->getChildren().size(); i++) 
+  {
+    this->postOrderTraverseDF(&node->getChildren()[i], lamda);
+  }
+
+  lamda(*node);
+}
+
+void Tree::analyze() 
+{
+  auto callback = [](const Node& node)
+  {
+    std::cout << node.toString();
+  };
+
+  this->postOrderTraverseDF(&this->root, callback);
 }
 
 Node &Tree::getRoot()

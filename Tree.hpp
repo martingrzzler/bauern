@@ -15,6 +15,8 @@ public:
   void moveBlack(const Node &node);
   void moveWhite(const Node &node);
   void addNode(const Node &node, const Utils::State &turn, const Utils::Positions &positions);
+  void postOrderTraverseDF(const Node*, const std::function<void(const Node&)> &lamda);
+  void analyze();
   Node& getRoot();
 };
 
