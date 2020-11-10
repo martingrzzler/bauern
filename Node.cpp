@@ -1,7 +1,7 @@
 #include "Node.hpp"
 #include <sstream>
 
-Node::Node(const Utils::MatchField &data): data(data) 
+Node::Node(const Utils::MatchField &data, Utils::State turn): data(data), turn(turn) 
 {
   this->children = new std::vector<Node>();
   this->end = new Utils::End();
@@ -36,7 +36,7 @@ std::vector<Node>& Node::getChildren() const
 std::string Node::toString() const
 {
   std::stringstream ss;
-  ss << "Node(end: " << *this->end << "): {\n";
+  ss << "Node(end: " << *this->end << ", turn: " << this->turn << " ): {\n";
   for (int i = 0; i < this->data.size(); i++)
   {
     ss << "\tRow " << i << ": {";
@@ -50,5 +50,10 @@ std::string Node::toString() const
   ss << "}\n";
 
   return ss.str();
+}
+
+Utils::State Node::getTurn() const
+{
+  return this->turn;
 }
 

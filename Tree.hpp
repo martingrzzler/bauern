@@ -10,11 +10,11 @@ private:
 
 public:
   Tree(const Node &node);
-  void buildTree(const Node &node, const Utils::State &turn = Utils::WHITE);
-  bool hasEnded(const Utils::State &turn, const Node &node) const;
+  void buildTree(const Node &node);
+  bool hasEnded(const Node &node) const;
   void moveBlack(const Node &node);
   void moveWhite(const Node &node);
-  void addNode(const Node &node, const Utils::State &turn, const Utils::Positions &positions);
+  void addNode(const Node &node, const Utils::Positions &positions);
   void postOrderTraverseDF(const Node*, const std::function<void(const Node&)> &lamda);
   void analyze();
   Node& getRoot();

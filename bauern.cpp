@@ -24,7 +24,7 @@ void printAllFields(const Node &node, int &count)
 int main()
 {
 
-  Node *root = new Node(Constants::initial);
+  Node *root = new Node(Constants::initial, Utils::WHITE);
   Tree *tree = new Tree(*root);
   tree->buildTree(tree->getRoot());
   tree->analyze();

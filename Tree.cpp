@@ -6,24 +6,24 @@ Tree::Tree(const Node &node) : root(node)
 {
 }
 
-void Tree::buildTree(const Node &node, const Utils::State &turn)
+void Tree::buildTree(const Node &node)
 {
-  if (this->hasEnded(turn, node))
+  if (this->hasEnded(node))
   {
     return;
   }
 
-  if (turn == Utils::WHITE)
+  if (node.getTurn() == Utils::WHITE)
   {
     this->moveWhite(node);
   }
-  else if (turn == Utils::BLACK)
+  else if (node.getTurn() == Utils::BLACK)
   {
     this->moveBlack(node);
   }
 }
 
-bool Tree::hasEnded(const Utils::State &turn, const Node &node) const
+bool Tree::hasEnded(const Node &node) const
 {
   bool hasEnded = true;
   for (int i = 0; i < node.getData().size(); i++)
@@ -33,7 +33,7 @@ bool Tree::hasEnded(const Utils::State &turn, const Node &node) const
       Utils::State bauer = node.getData()[i][j];
       if (bauer == Utils::WHITE || bauer == Utils::BLACK)
       {
-        if (turn == bauer)
+        if (node.getTurn() == bauer)
         {
           hasEnded = false;
         }
@@ -51,8 +51,8 @@ bool Tree::hasEnded(const Utils::State &turn, const Node &node) const
       }
     }
   }
-  if (hasEnded && turn == Utils::BLACK) node.setEnd(Utils::WHITE_WIN);
-  else if (hasEnded && turn == Utils::WHITE) node.setEnd(Utils::BLACK_WIN);
+  if (hasEnded && node.getTurn() == Utils::BLACK) node.setEnd(Utils::WHITE_WIN);
+  else if (hasEnded && node.getTurn() == Utils::WHITE) node.setEnd(Utils::BLACK_WIN);
   return hasEnded;
 }
 
@@ -68,17 +68,17 @@ void Tree::moveBlack(const Node &node)
 
     if (ahead == Utils::NONE)
     {
-      this->addNode(node, Utils::BLACK, { stats.row, stats.column, current, Utils::AHEAD });
+      this->addNode(node, { stats.row, stats.column, current, Utils::AHEAD });
     }
 
     if (leftUpward == Utils::WHITE)
     {
-      this->addNode(node, Utils::BLACK, { stats.row, stats.column, current, Utils::LEFT_UPWARD });
+      this->addNode(node, { stats.row, stats.column, current, Utils::LEFT_UPWARD });
     }
 
     if (rightUpward == Utils::WHITE)
     {
-      this->addNode(node, Utils::BLACK, { stats.row, stats.column, current, Utils::RIGHT_UPWARD });
+      this->addNode(node, { stats.row, stats.column, current, Utils::RIGHT_UPWARD });
     }
 
     // can't move
@@ -104,15 +104,15 @@ void Tree::moveWhite(const Node &node)
     const Utils::State &rightUpward = stats.column == Constants::NO_RIGHT_UPWARD_COLUMN ? Utils::UNDEFINED : node.getData()[stats.row + 1][stats.column + 1];
     if (ahead == Utils::NONE)
     {
-      this->addNode(node, Utils::WHITE, { stats.row, stats.column, current, Utils::AHEAD });
+      this->addNode(node, { stats.row, stats.column, current, Utils::AHEAD });
     }
     if (leftUpward == Utils::BLACK)
     {
-      this->addNode(node, Utils::WHITE, { stats.row, stats.column, current, Utils::LEFT_UPWARD });
+      this->addNode(node, { stats.row, stats.column, current, Utils::LEFT_UPWARD });
     }
     if (rightUpward == Utils::BLACK)
     {
-      this->addNode(node, Utils::WHITE, { stats.row, stats.column, current, Utils::RIGHT_UPWARD });
+      this->addNode(node, { stats.row, stats.column, current, Utils::RIGHT_UPWARD });
     }
     // can't move
     if (ahead == Utils::BLACK && leftUpward != Utils::BLACK && rightUpward != Utils::BLACK)
@@ -124,21 +124,21 @@ void Tree::moveWhite(const Node &node)
   Utils::forEachWhite(node.getData(), callback);
 }
 
-void Tree::addNode(const Node &node, const Utils::State &turn, const Utils::Positions &positions)
+void Tree::addNode(const Node &node, const Utils::Positions &positions)
 {
   Utils::MatchField copy = Utils::copyMatchField(node.getData());
   switch (positions.move)
   {
   case Utils::AHEAD:
-    if (turn == Utils::WHITE) copy[positions.row + 1][positions.column] = positions.current;
+    if (node.getTurn() == Utils::WHITE) copy[positions.row + 1][positions.column] = positions.current;
     else copy[positions.row - 1][positions.column] = positions.current;
     break;
   case Utils::LEFT_UPWARD:
-    if (turn == Utils::WHITE) copy[positions.row + 1][positions.column - 1] = positions.current;
+    if (node.getTurn() == Utils::WHITE) copy[positions.row + 1][positions.column - 1] = positions.current;
     else copy[positions.row - 1][positions.column - 1] = positions.current;
     break;
   case Utils::RIGHT_UPWARD:
-    if(turn == Utils::WHITE) copy[positions.row + 1][positions.column + 1] = positions.current;
+    if(node.getTurn() == Utils::WHITE) copy[positions.row + 1][positions.column + 1] = positions.current;
     else copy[positions.row - 1][positions.column + 1] = positions.current;
     break;
   default:
@@ -147,9 +147,9 @@ void Tree::addNode(const Node &node, const Utils::State &turn, const Utils::Posi
   }
 
   copy[positions.row][positions.column] = Utils::NONE;
-  const Node *child = new Node(copy);
+  const Node *child = new Node(copy, node.getTurn() == Utils::WHITE ? Utils::BLACK : Utils::WHITE);
   node.addChild(*child);
-  this->buildTree(*child, turn == Utils::WHITE ? Utils::BLACK : Utils::WHITE);
+  this->buildTree(*child);
 }
 
 void Tree::postOrderTraverseDF(const Node* node ,const std::function<void(const Node&)> &lamda) 
